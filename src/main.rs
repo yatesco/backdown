@@ -1,8 +1,9 @@
-#[macro_use] extern crate cli_log;
+#[macro_use]
+extern crate cli_log;
 
 use {
-    backdown::*,
     anyhow::Result,
+    backdown::*,
     crossterm::style::{Attribute::*, Color::*},
     minimad::*,
     termimad::*,
@@ -14,12 +15,17 @@ fn run_app() -> Result<()> {
         println!("backdown {}", env!("CARGO_PKG_VERSION"));
         return Ok(());
     }
-    let root = args.path
+    let root = args
+        .path
         .unwrap_or_else(|| std::env::current_dir().unwrap());
     let skin = make_skin();
     info!("root: {:?}", &root);
     skin.print_text("\n# Phase 1) Analysis");
-    mad_print_inline!(skin, "Analyzing directory *$0*...\n", root.to_string_lossy());
+    mad_print_inline!(
+        skin,
+        "Analyzing directory *$0*...\n",
+        root.to_string_lossy()
+    );
     let dup_report = time!(
         Info,
         "computing dup sets",
